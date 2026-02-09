@@ -15,6 +15,12 @@ const DoctorCard = ({ name, speciality, experience, ratings, profilePic }) => {
     setShowForm(false);
   };
 
+  const handleCancel = (appointmentId) => {
+    // Remove appointment by its ID
+    const updatedAppointments = appointments.filter((appointment) => appointment.id !== appointmentId);
+    setAppointments(updatedAppointments);
+  };
+
   return (
     <div className="doctor-card-container">
       <div className="doctor-card-details-container">
@@ -51,6 +57,29 @@ const DoctorCard = ({ name, speciality, experience, ratings, profilePic }) => {
       </div>
 
       {showForm && <AppointmentForm doctorName={name} onSubmit={handleFormSubmit} />}
+      
+      {/* Render appointments */}
+      <div className="appointments-list">
+        {appointments.length > 0 ? (
+          appointments.map((appointment) => (
+            <div key={appointment.id} className="appointment-item">
+              <div>
+                <p>Patient: {appointment.name}</p>
+                <p>Appointment Date: {appointment.date}</p>
+                <p>Appointment Time: {appointment.time}</p>
+              </div>
+              <button
+                className="cancel-appointment-btn"
+                onClick={() => handleCancel(appointment.id)}
+              >
+                Cancel Appointment
+              </button>
+            </div>
+          ))
+        ) : (
+          <p>No appointments booked yet.</p>
+        )}
+      </div>
     </div>
   );
 };

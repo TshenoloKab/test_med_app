@@ -1,45 +1,60 @@
-import React, { useEffect, useState } from "react";
-import "./Notification.css";
+import React, { useEffect, useState } from 'react';
+import Navbar from '../Navbar/Navbar';
+import './Notification.css';
 
-const Notification = ({ appointmentCancelled }) => {
-  const [showNotification, setShowNotification] = useState(true);
+const Notification = ({ children }) => {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [username, setUsername] = useState("");
-  const [doctor, setDoctor] = useState(null);
-  const [appointment, setAppointment] = useState(null);
+  const [doctorData, setDoctorData] = useState(null);
+  const [appointmentData, setAppointmentData] = useState(null);
+  const [showNotification, setShowNotification] = useState(false);
 
-  // Load stored data
   useEffect(() => {
-    const storedUser = sessionStorage.getItem("email");
-    const storedDoctor = JSON.parse(localStorage.getItem("doctorData"));
+    const storedUsername = sessionStorage.getItem('email');
+    let storedDoctorData = null;
+    let storedAppointmentData = null;
 
-    if (storedDoctor) {
-      const storedAppointment = JSON.parse(
-        localStorage.getItem(storedDoctor.name)
-      );
-
-      setDoctor(storedDoctor);
-      setAppointment(storedAppointment);
+    try {
+      storedDoctorData = JSON.parse(localStorage.getItem('doctorData'));
+      if (storedDoctorData?.name) {
+        storedAppointmentData = JSON.parse(localStorage.getItem(storedDoctorData.name));
+      }
+    } catch (error) {
+      console.log("No doctor or appointment stored yet");
     }
 
-    if (storedUser) setUsername(storedUser);
+    if (storedUsername) {
+      setIsLoggedIn(true);
+      setUsername(storedUsername);
+    }
+
+    if (storedDoctorData) setDoctorData(storedDoctorData);
+    if (storedAppointmentData) {
+      setAppointmentData(storedAppointmentData);
+      setShowNotification(true);
+    }
   }, []);
 
   // Hide notification when appointment is cancelled
-  useEffect(() => {
-    if (appointmentCancelled) {
-      setShowNotification(false);
-    }
-  }, [appointmentCancelled]);
-
-  if (!showNotification || !appointment) return null;
+  const handleCancel = () => {
+    setShowNotification(false);
+  };
 
   return (
-    <div className="notification-container">
-      <h3>Appointment Confirmed ✅</h3>
-      <p><strong>Patient:</strong> {username}</p>
-      <p><strong>Doctor:</strong> {doctor?.name}</p>
-      <p><strong>Date:</strong> {appointment?.date}</p>
-      <p><strong>Time:</strong> {appointment?.time}</p>
+    <div>
+      <Navbar />
+      {children}
+
+      {isLoggedIn && appointmentData && showNotification && (
+        <div className="appointment-card">
+          <h3>Appointment Booked</h3>
+          <p><strong>User:</strong> {username}</p>
+          <p><strong>Doctor:</strong> {doctorData?.name || 'Unknown'}</p>
+          <p><strong>Date:</strong> {appointmentData?.date || 'N/A'}</p>
+          <p><strong>Time:</strong> {appointmentData?.time || 'N/A'}</p>
+          <button onClick={handleCancel}>Dismiss</button>
+        </div>
+      )}
     </div>
   );
 };

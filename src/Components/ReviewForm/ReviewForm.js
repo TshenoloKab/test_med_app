@@ -1,80 +1,82 @@
+// src/Components/ReviewForm/ReviewForm.js
 import React, { useState } from "react";
 import "./ReviewForm.css";
 
-const ReviewForm = ({ doctorName, appointmentDate, appointmentTime }) => {
-  const [showForm, setShowForm] = useState(false);
-  const [rating, setRating] = useState("");
-  const [review, setReview] = useState("");
+const ReviewForm = () => {
+  const [formData, setFormData] = useState({
+    name: "",
+    review: "",
+    rating: 0,
+  });
+  const [submitted, setSubmitted] = useState(false);
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleRating = (star) => {
+    setFormData({ ...formData, rating: star });
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    const reviewData = {
-      doctorName,
-      appointmentDate,
-      appointmentTime,
-      rating,
-      review,
-    };
-
-    console.log("Review submitted:", reviewData);
-
-    // Reset form
-    setRating("");
-    setReview("");
-    setShowForm(false);
+    if (!formData.name || !formData.review || !formData.rating) {
+      alert("Please fill all fields and select a rating!");
+      return;
+    }
+    console.log("Review submitted:", formData);
+    setSubmitted(true);
+    setFormData({ name: "", review: "", rating: 0 });
   };
 
   return (
     <div className="review-form-container">
-      <h3>Consultation Summary</h3>
+      <h2>Give Your Review</h2>
+      {submitted && <p className="success-msg">Thank you for your review!</p>}
+      <form onSubmit={handleSubmit}>
+        <div className="form-row">
+          <label htmlFor="name">Name:</label>
+          <input
+            type="text"
+            id="name"
+            name="name"
+            value={formData.name}
+            onChange={handleChange}
+            placeholder="Your name"
+          />
+        </div>
 
-      <p><strong>Doctor:</strong> {doctorName}</p>
-      <p><strong>Date:</strong> {appointmentDate}</p>
-      <p><strong>Time:</strong> {appointmentTime}</p>
+        <div className="form-row">
+          <label htmlFor="review">Review:</label>
+          <input
+            type="text"
+            id="review"
+            name="review"
+            value={formData.review}
+            onChange={handleChange}
+            placeholder="Your review"
+          />
+        </div>
 
-      {!showForm && (
-        <button
-          className="review-btn"
-          onClick={() => setShowForm(true)}
-        >
-          Write a Review
+        <div className="form-row rating-row">
+          <label>Rating:</label>
+          <div className="stars">
+            {[1, 2, 3, 4, 5].map((star) => (
+              <span
+                key={star}
+                className={`star ${formData.rating >= star ? "filled" : ""}`}
+                onClick={() => handleRating(star)}
+              >
+                ★
+              </span>
+            ))}
+          </div>
+        </div>
+
+        <button type="submit" className="submit-btn">
+          Submit
         </button>
-      )}
-
-      {showForm && (
-        <form className="review-form" onSubmit={handleSubmit}>
-          <label>
-            Rating:
-            <select
-              value={rating}
-              onChange={(e) => setRating(e.target.value)}
-              required
-            >
-              <option value="">Select</option>
-              <option value="1">1 - Poor</option>
-              <option value="2">2</option>
-              <option value="3">3 - Average</option>
-              <option value="4">4</option>
-              <option value="5">5 - Excellent</option>
-            </select>
-          </label>
-
-          <label>
-            Review:
-            <textarea
-              value={review}
-              onChange={(e) => setReview(e.target.value)}
-              placeholder="Write your feedback..."
-              required
-            />
-          </label>
-
-          <button type="submit" className="submit-review-btn">
-            Submit Review
-          </button>
-        </form>
-      )}
+      </form>
     </div>
   );
 };

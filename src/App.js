@@ -7,6 +7,7 @@ import Login from "./Components/Login/Login";
 import InstantConsultation from "./Components/InstantConsultationBooking/InstantConsultation";
 import BookingConsultation from "./Components/BookingConsultation/BookingConsultation";
 import Notification from "./Components/Notification/Notification";
+import Reviews from "./Components/Reviews/Reviews"; // <-- New import
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/instant-consultation" element={<InstantConsultation />} />
             <Route path="/book-consultation" element={<BookingConsultation />} />
+            <Route path="/reviews" element={<Reviews />} /> {/* <-- New Route */}
           </Routes>
         </Notification>
       </BrowserRouter>

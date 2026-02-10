@@ -1,10 +1,21 @@
 .booking-consultation-container {
-  padding: 20px;
+  max-width: 1000px;
+  margin: 40px auto; /* adds spacing from top */
+  padding: 0 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-.booking-consultation-container h2 {
+.booking-consultation-container h1 {
   text-align: center;
-  margin-bottom: 20px;
+  margin-bottom: 30px; /* spacing below heading */
 }
 
-/* Add any other custom styles for your consultation booking page */
+.doctor-cards-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 20px;
+  width: 100%;
+  margin-top: 20px;
+}

@@ -1,0 +1,27 @@
+.find-doctor-search {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0 40px 0; /* pushes search bar lower */
+  width: 100%;
+}
+
+.find-doctor-search input {
+  width: 300px;
+  padding: 10px;
+  border-radius: 5px 0 0 5px;
+  border: 1px solid #ccc;
+  outline: none;
+}
+
+.find-doctor-search button {
+  padding: 10px 20px;
+  border: none;
+  background-color: #3685fb;
+  color: white;
+  border-radius: 0 5px 5px 0;
+  cursor: pointer;
+}
+
+.find-doctor-search button:hover {
+  background-color: #2a6ad6;
+}

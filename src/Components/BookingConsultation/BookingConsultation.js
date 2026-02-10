@@ -1,25 +1,31 @@
 import React from "react";
 import DoctorCard from "../DoctorCard/DoctorCard";
 import FindDoctorSearch from "../FindDoctorSearch/FindDoctorSearch";
+import "./BookingConsultation.css";
 
 const BookingConsultation = () => {
   const doctors = [
-    // Sample doctor data, you can fetch this data dynamically from an API
     {
       name: "Dr. John Doe",
       speciality: "Cardiologist",
       experience: "15",
       ratings: "4.5",
-      profilePic: "https://via.placeholder.com/150",
+      profilePic: "https://via.placeholder.com/100?text=🩺",
     },
     {
       name: "Dr. Jane Smith",
       speciality: "Dermatologist",
       experience: "10",
       ratings: "4.8",
-      profilePic: "https://via.placeholder.com/150",
+      profilePic: "https://via.placeholder.com/100?text=🩺",
     },
-    // Add more doctors as needed
+    {
+      name: "Dr. Alice Johnson",
+      speciality: "Neurologist",
+      experience: "12",
+      ratings: "4.7",
+      profilePic: "https://via.placeholder.com/100?text=🩺",
+    },
   ];
 
   return (
